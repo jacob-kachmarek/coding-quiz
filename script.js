@@ -40,3 +40,14 @@ var questions = [
     }
 ];
 
+startButton.addEventListener('click', startGame);
+
+function startGame() {
+    startButton.disabled = true;
+    timer = setInterval(countdownTimer, 1000);
+}
+
+function countdownTimer() {
+    time--;
+    timerDisplay.textContent = time;
+}
