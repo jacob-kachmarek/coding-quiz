@@ -50,4 +50,15 @@ function startGame() {
 function countdownTimer() {
     time--;
     timerDisplay.textContent = time;
+
+    if (time <= 0) {
+        endGame();
+    }
+}
+
+function endGame() {
+    clearInterval(timer);
+    questionDisplay.textContent = '';
+    optionsDisplay.innerHTML = '';
+    endScreen.style.display = 'flex';
 }
