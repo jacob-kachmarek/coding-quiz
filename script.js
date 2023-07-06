@@ -45,6 +45,7 @@ startButton.addEventListener('click', startGame);
 function startGame() {
     startButton.disabled = true;
     timer = setInterval(countdownTimer, 1000);
+    displayQuestions();
 }
 
 function countdownTimer() {
@@ -56,9 +57,45 @@ function countdownTimer() {
     }
 }
 
+function displayQuestions() {
+    var currentQuestion = questions[questionIndex]
+    questionDisplay.textContent = currentQuestion.question
+    optionsDisplay.innerHTML = '';
+    currentQuestion.options.forEach(function(option) {
+        var button = document.createElement('button');
+        button.textContent = option;
+        button.addEventListener('click', checkIfRight);
+        optionsDisplay.appendChild(button);
+
+    });
+}
+
+function checkIfRight(event) {
+    var selectedOption = event.target.textContent;
+    var currentQuestion = questions[questionIndex];
+
+    if (selectedOption === currentQuestion.answer) {
+      score++;
+    } else {
+      time -= 10;
+      if (time < 0) {
+        time = 0;
+      }
+    }
+
+    questionIndex++;
+
+    if (questionIndex >= questions.length || time === 0) {
+      endGame();
+    } else {
+      displayQuestions();
+    }
+}
+
 function endGame() {
     clearInterval(timer);
     questionDisplay.textContent = '';
     optionsDisplay.innerHTML = '';
     endScreen.style.display = 'flex';
+    scoreDisplay.textContent = score;
 }
