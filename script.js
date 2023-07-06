@@ -43,9 +43,9 @@ var questions = [
 startButton.addEventListener('click', startGame);
 
 function startGame() {
-    startButton.disabled = true;
     timer = setInterval(countdownTimer, 1000);
     displayQuestions();
+    startButton.style.display = 'none';
 }
 
 function countdownTimer() {
@@ -95,7 +95,7 @@ function checkIfRight(event) {
 function endGame() {
     clearInterval(timer);
     questionDisplay.textContent = '';
-    optionsDisplay.innerHTML = '';
+    optionsDisplay.textContent = '';
     endScreen.style.display = 'flex';
     scoreDisplay.textContent = score;
 }
