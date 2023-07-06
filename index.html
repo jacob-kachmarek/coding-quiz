@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="./style.css"/>
-    <title>Document</title>
+    <link rel="stylesheet" href="./assets/reset.css"/>
+    <link rel="stylesheet" href="./assets/style.css"/>
+    <title>Code Quiz</title>
 </head>
 <body>
     <h1>Code Quiz</h1>
@@ -13,7 +14,7 @@
         <section id="question"></section>
         <section id="options"></section>
     </div>
-    <div id="button">
+    <div id="start-button-container">
         <button id="start">Start Game</button>
     </div>
     <section id="end-screen" style="display: none;">
@@ -23,6 +24,10 @@
       <input type="text" id="initials">
       <button id="save">Save</button>
     </section>
-    <script src="./script.js"></script>
+    <section id="scores">
+        <h2>High Scores</h2>
+        <ul id="high-scores"></ul>
+    </section>
+    <script src="./assets/script.js"></script>
 </body>
 </html>

@@ -1,3 +1,4 @@
+//Grabbing all dom elements globally so they can be used and accessed in the functions
 var startButton = document.getElementById('start');
 var timerDisplay = document.getElementById('time');
 var questionDisplay = document.getElementById('question');
@@ -6,12 +7,14 @@ var endScreen = document.getElementById('end-screen');
 var scoreDisplay = document.getElementById('score');
 var initialsInput = document.getElementById('initials');
 var saveButton = document.getElementById('save');
-
+//Variables being set within js
 var timer;
 var time = 60;
 var questionIndex = 0;
 var score = 0;
+var highScores = [];
 
+//Array of objects each object representing a question of the quiz
 var questions = [
     {
         question: 'What is the result of 2 + 2?',
@@ -39,8 +42,9 @@ var questions = [
         answer: 'color', 
     }
 ];
-
+//Click events for the answer buttons and the 
 startButton.addEventListener('click', startGame);
+saveButton.addEventListener('click', saveGame);
 
 function startGame() {
     timer = setInterval(countdownTimer, 1000);
@@ -60,15 +64,28 @@ function countdownTimer() {
 function displayQuestions() {
     var currentQuestion = questions[questionIndex]
     questionDisplay.textContent = currentQuestion.question
-    optionsDisplay.innerHTML = '';
+    optionsDisplay.textContent = '';
     currentQuestion.options.forEach(function(option) {
         var button = document.createElement('button');
         button.textContent = option;
         button.addEventListener('click', checkIfRight);
-        optionsDisplay.appendChild(button);
-
+        optionsDisplay.append(button);
     });
 }
+
+function displayHighScores() {
+    var highScoresList = document.getElementById('high-scores');
+  
+    highScores.sort(function(low, high) {
+      return high.score - low.score;
+    });
+  
+    highScores.forEach(function(user) {
+      var listItem = document.createElement('li');
+      listItem.textContent = user.initials + ' - ' + user.score;
+      highScoresList.appendChild(listItem);
+    });
+  }
 
 function checkIfRight(event) {
     var selectedOption = event.target.textContent;
@@ -99,3 +116,28 @@ function endGame() {
     endScreen.style.display = 'flex';
     scoreDisplay.textContent = score;
 }
+
+function saveGame() {
+    var initials = initialsInput.value.trim();
+
+    if (initials !== '') {
+      var user = {
+        initials: initials,
+        score: score
+      };
+  
+      highScores.push(user);
+      localStorage.setItem('highScores', JSON.stringify(highScores));
+      initialsInput.value = '';
+  
+      displayHighScores();
+    }
+}
+
+window.addEventListener('load', function () {
+    var localHighScores = localStorage.getItem('highScores');
+    if (localHighScores) {
+        highScores = JSON.parse(localHighScores);
+        displayHighScores();
+}
+})
